@@ -3,7 +3,7 @@ const users = require('./userDb');
 const posts = require('../posts/postDb');
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/',validateUser, (req, res) => {
   // do your magic!
   users
   .insert(req.body)
@@ -60,7 +60,7 @@ router.get('/:id', validateUserId, (req, res) => {
   });
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts',validateUserId, (req, res) => {
   // do your magic!
   const { id } = req.params;
 
@@ -121,7 +121,7 @@ function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   // do your magic!
   const body = req.body;
-
+  
 	switch (true) {
 		case !body:
 			return res.status(400).json({ message: 'No user data' });
